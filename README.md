@@ -12,3 +12,4 @@ git pull https://github.com/csc-training/summerschool.git
 ---
 ## Notes
 test notes first day
+test note 2
