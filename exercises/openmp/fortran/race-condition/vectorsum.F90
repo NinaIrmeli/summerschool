@@ -15,15 +15,15 @@ program vectorsum
 
   sum = 0
   ! TODO: Parallelize the computation
-  !omp parallel
-  !omp do
+  !$omp parallel
+  !$omp do
   do i = 1, nx
      sum = sum + vecA(i)
   end do
   write(*,*) 'Sum: ', sum
-  !omp end do
+  !$omp end do
   !$omp critical(dosum)
   asum=asum+sum
-  !omp end critical(dosum)
-  !omp end parallel
+  !$omp end critical(dosum)
+  !$omp end parallel
 end program vectorsum
