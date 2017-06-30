@@ -23,7 +23,7 @@ program vectorsum
   write(*,*) 'Sum: ', sum
   !omp end do
   !$omp critical(dosum)
-  asum=asum+psum
+  asum=asum+sum
   !omp end critical(dosum)
   !omp end parallel
 end program vectorsum
