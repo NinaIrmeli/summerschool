@@ -15,8 +15,12 @@ program vectorsum
 
   sum = 0
   ! TODO: Parallelize the computation
-  do i = 1, nx
-     sum = sum + vecA(i)
-  end do
+  ! $omp parallel
+  ! $omp do
+  ! do i = 1, nx
+  !   sum = sum + vecA(i)
+  ! end do
+  ! $omp end do
+  ! $omp end parallel
   write(*,*) 'Sum: ', sum
 end program vectorsum
