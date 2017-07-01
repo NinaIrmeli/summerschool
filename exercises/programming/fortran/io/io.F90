@@ -6,6 +6,8 @@ contains
   subroutine read_field(field, filename)
     implicit none
 
+    integer :: nx,ny
+    integer :: i, alloc_stat
     real, dimension(:,:), allocatable, intent(out) :: field
     character(len=*), intent(in) :: filename
 
@@ -17,23 +19,24 @@ contains
     ! read rest of the file into field
     ! close the file
 
+  open(10,file=filename,action='read')
 
+  read(10,*) nx, ny
 
+  allocate(field(1:nx,1:ny),stat=alloc_stat)
+!  if alloc_stat /=0 call abort()
 
-
-
-
-
-
-
-
-
-
-
-
+  do i = 1,ny
+  read(10,*) field(i,:)
+  end do
+ 
+  close(10)
 
 
   end subroutine read_field
+
+
+
 
   ! Output routine, saves the temperature distribution as a png image
   subroutine write_field(field, iter)

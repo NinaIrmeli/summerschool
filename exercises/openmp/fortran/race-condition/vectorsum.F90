@@ -5,7 +5,7 @@ program vectorsum
   integer(kind=ik), parameter :: nx = 102400_ik
 
   integer(kind=ik), dimension(nx) :: vecA
-  integer(kind=ik) :: sum, psum, sumex
+  integer(kind=ik) :: asum,sum, psum, sumex
   integer(kind=ik) :: i
 
   ! Initialization of vector
@@ -15,12 +15,15 @@ program vectorsum
 
   sum = 0
   ! TODO: Parallelize the computation
-  ! $omp parallel
-  ! $omp do
-  ! do i = 1, nx
-  !   sum = sum + vecA(i)
-  ! end do
-  ! $omp end do
-  ! $omp end parallel
+ !$omp parallel
+  !$omp do
+  do i = 1, nx
+     sum = sum + vecA(i)
+  end do
   write(*,*) 'Sum: ', sum
+  !$omp end do
+  !$omp critical(dosum)
+  asum=asum+sum
+  !$omp end critical(dosum)
+  !$omp end parallel
 end program vectorsum

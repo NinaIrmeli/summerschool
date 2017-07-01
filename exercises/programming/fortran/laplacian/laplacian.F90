@@ -2,12 +2,11 @@ program laplacian
   implicit none
 
   integer, parameter :: nx = 10, ny = 10
+!  integer :: delx=0.01, dely=0.01
   real, dimension(nx, ny) :: prev, lapl
   integer :: i, j
 
   real, parameter :: dx = 0.01, dy = 0.01
-
-
 
   ! initialize prev array with varying boundaries
   prev(:,:)  = 65.0 ! middle
@@ -25,11 +24,13 @@ program laplacian
   ! and saving to lapl array. Remember to evaluate it only
   ! at the inner points.
 
+  
 
-
-
-
-
+  do j=2,ny-1
+  do i=2,nx-1
+    lapl(i,j) = (prev(i-1,j)-2*prev(i,j)+prev(i+1,j))/dx**2 + (prev(i,j-1)-2*prev(i,j)+prev(i,j+1))/dy**2
+  end do
+  end do
 
 
 

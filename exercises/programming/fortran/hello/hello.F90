@@ -1,5 +1,13 @@
 program hello
   implicit none
+  integer :: const
+  real :: a,b
+ 
+  write(*,*) 'Write two numbers: '
+  read(*,*) a,b
+  
+  write (*,*) 'a/b: '
+  write (*,'(F4.2)') a/b 
 
-  write (*,*) 'Hello world from Fortran!'
+
 end program hello

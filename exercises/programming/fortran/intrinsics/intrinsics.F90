@@ -28,6 +28,19 @@ program intrinsics
   ! TODO: use array intrinsics to probe elements of A
 
 
+  !if any(A.lt.0) write(*,*) 'Elements smaller than zero'
 
 
-end program intrinsics
+  write(*,*) 'Sum'
+  write(*,'(F8.2)') sum(A,2)
+  write(*,*) 'Max loc'
+  write(*,'(I8)') maxloc(A)
+  write(*,*) 'Min val'
+  write(*,'(F8.2)') minval(A)
+  write(*,*) 'Larger than 0.5'
+  write(*,'(I8)') sum(A,A.ge.0.5)
+  
+  
+
+
+en program intrinsics
