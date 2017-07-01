@@ -8,7 +8,7 @@ program hello
   call MPI_Comm_rank(MPI_COMM_WORLD,rank,rc)
   call MPI_Comm_size(mpi_comm_world,nr,rc)
   print *, 'Hello world! from rank:' ,rank
-  if (rank.eq.0) print *,'Total nr of ranks: ',nr 
+  if (rank.eq.0) print *,'Total nr of rank 
 
   call MPI_Finalize(rc)
 
