@@ -4,8 +4,8 @@ program basic
 
   implicit none
   integer, parameter :: size = 100
-  integer :: rc, myid, ntasks, count
-  integer :: status(MPI_STATUS_SIZE)
+  integer :: rc, myid, ntasks, count,dest,source
+  integer :: status(MPI_STATUS_SIZE,2), requests(2)
   integer :: message(size)
   integer :: recbuffer(size)
 
@@ -22,21 +22,33 @@ program basic
   t0 = mpi_wtime()
 
   ! TODO: Send and receive as defined in the assignment
+
+
   if ( myid < ntasks-1 ) then
-    call MPI_send(message,size,MPI_integer,myid+1,myid+1,MPI_comm_world,rc)
-
-     write(*,'(A10,I3,A20,I8,A,I3,A,I3)') 'Sender: ', myid, &
-          ' Sent elements: ',size, &
-          '. Tag: ', myid+1, '. Receiver: ', myid+1
+    dest = myid+1
+  else
+    dest=MPI_proc_null
   end if
-
-  if ( myid > 0 ) then
-    call MPI_recv(recbuffer,size,MPI_integer,myid,myid,MPI_comm_world,status,rc)
-
-     write(*,'(A10,I3,A,I3)') 'Receiver: ', myid, &
-          ' First element: ', recbuffer(1)
+  if (myid>0) then
+    source=myid-1
+  else
+    source=MPI_proc_null
   end if
+ 
+  call MPI_Irecv(recbuffer,size,MPI_integer,source,myid,MPI_comm_world,requests(2),rc)
+  call MPI_Isend(message,size,MPI_integer,dest,myid+1,MPI_comm_world,requests(1),rc)
 
+     call MPI_waitall(2,requests,status,rc)
+
+!  write(*,'(A10,I3,A10,I3)') 'Sender: ', myid, 'Message: ', message(0)
+  write(*,'(A10,I3,A15,I3,A15,I3,A15,I3)') 'Sender:', myid, 'Message: ', message(0), &
+                          'Receiver: ', myid, ' First element: ', recbuffer(1)
+  
+
+!  write(*,*) 'Reciever: '
+ !    write(*,'(A10,I3,A,I3)') 'Receiver: ', myid, &
+ !         ' First element: ', recbuffer(1)
+ 
   ! Finalize measuring the time and print it out
   t1 = mpi_wtime()
   call mpi_barrier(mpi_comm_world, rc)
