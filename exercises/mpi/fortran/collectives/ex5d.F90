@@ -39,6 +39,7 @@ program coll_exer
 
   call mpi_finalize(ierr)
 
+
 contains
 
   subroutine init_buffers
