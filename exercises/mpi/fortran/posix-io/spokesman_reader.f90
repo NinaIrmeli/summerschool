@@ -40,7 +40,7 @@ contains
     implicit none
 
     if (my_id == writer_id) then
-      open(10, file='singlewriter.dat', status='old', form='unformatted', &
+      open(10, file='out.dat', status='old', form='unformatted', &
            & access='stream')
       read(10, pos=1) fullvector
       close(10)
