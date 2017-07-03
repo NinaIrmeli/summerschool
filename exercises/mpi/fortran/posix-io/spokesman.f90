@@ -6,7 +6,8 @@ program pario
   integer, parameter :: datasize = 64, writer_id = 0
   integer :: rc, my_id, ntasks, localsize, i
   integer, dimension(:), allocatable :: localvector
-  integer, dimension(datasize) :: fullvector
+  integer, dimension(datasize) :: fullvector, invector
+  character(15) :: fname='out.dat'
 
   call mpi_init(rc)
   call mpi_comm_size(mpi_comm_world, ntasks, rc)
@@ -30,6 +31,9 @@ program pario
   call single_writer()
 
   deallocate(localvector)
+
+  call single_reader()
+
   call mpi_finalize(rc)
 
 contains
@@ -39,7 +43,36 @@ contains
 
     ! TODO: Implement a function that writers the whole array of elements
     !       to a file so that single process is responsible for the file io
+    
 
+    call MPI_gather(localvector,localsize,MPI_integer,fullvector,localsize,MPI_integer,0,MPI_comm_world,rc)
+
+    if (my_id.eq.0) then
+
+    open(10, file=fname, access='stream')
+    write(10) fullvector
+    close(10)
+
+    end if
+  
   end subroutine single_writer
+
+
+
+  subroutine single_reader()
+  
+  if (my_id.eq.0) then
+  open(6,file=fname,access='stream')
+  read(6) invector
+
+!  do i=0,datasize
+  write(*,*)  invector
+!  end if
+   
+  end if
+   
+
+  end subroutine single_reader
+
 
 end program pario
