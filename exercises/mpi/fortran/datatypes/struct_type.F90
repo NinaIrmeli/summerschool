@@ -32,9 +32,19 @@ program datatype_struct
   end if
   
   ! TODO: define the datatype for type particle
+  
+  types=(/MPI_real,MPI_integer,MPI_character/)
+  blocllen = (/3,1,2/)
+
+  call_MPI_get_address(particles(1)%coords, disp(1), ierr)   !get the position 
+ 
+  call MPI_type_create_struct()
+  call MPI_type_commit()
 
   ! TODO: Check extent. 
   ! (Not really neccessary on most systems.)
+  call MPI_get_extent()
+
   ! TODO: resize the particle_mpi_type if needed
   if(extent /= disp(2)-disp(1)) then
   ! TODO: resize the particle_mpi_type if needed
