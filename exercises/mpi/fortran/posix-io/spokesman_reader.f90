@@ -38,7 +38,6 @@ contains
 
   subroutine single_reader()
     implicit none
-
     if (my_id == writer_id) then
       open(10, file='out.dat', status='old', form='unformatted', &
            & access='stream')
@@ -49,7 +48,9 @@ contains
     end if
 
     call mpi_scatter(fullvector, localsize, mpi_integer, localvector, &
-         & localsize, mpi_integer, writer_id, mpi_comm_world, rc)
+
+! TODO: Implement a funill read the data from a file so that
+!       a single process does the file io. Use rank WRITER_ID as the io rank 
 
   end subroutine single_reader
 
